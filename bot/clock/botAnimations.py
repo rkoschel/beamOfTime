@@ -8,6 +8,11 @@ class BotClock(BotClock):
     def __init__(self):
         super(BotClock, self).__init__()
         # add available animations to dictionary
+        self.animations["FCB Ranking"] = self.animationFCB
+        self.animations["S04 Ranking"] = self.animationS04
+        self.animations["BVB Ranking"] = self.animationBVB
+        self.animations["VFL Ranking"] = self.animationVFL
+
         self.animations["colorDrop"] = self.animationColorDrop
         self.animations["colorWipe"] = self.animationColorWipe
         self.animations["colorWipeQuarter"] = self.animationColorWipeQuarter
@@ -16,6 +21,29 @@ class BotClock(BotClock):
         # keep random and nothing at the end to allow random to pick only valid ones (count- 2)
         self.animations["random"] = self.animationRandom
         self.animations["nothing"] = self.animationNothing
+
+    def animationFCB(self):
+        self.animationDFLRanking('FC Bayern München')
+
+    def animationS04(self):
+        self.animationDFLRanking('FC Schalke 04')
+
+    def animationBVB(self):
+        self.animationDFLRanking('Borussia Dortmund')
+
+    def animationVFL(self):
+        self.animationDFLRanking('VfL Bochum 1848')
+
+    def animationDFLRanking(self, club):
+        color = (255, 96, 28)
+        dflRanking = 10 ## TODO implement method to retrieve ranking from https://www.bundesliga.com/de/2bundesliga/tabelle
+        print(f'{club} is ranked: {dflRanking}')
+        for i in range(1,dflRanking+1):
+            ## TODO implement logic for ranking > 12 (ring=0)
+            self.colorRingSet(color, 1, i)
+            self.strip.show()
+            time.sleep(20/1000.0)
+        time.sleep(15)
 
     def randomColor(self):
         maxCol= 120
