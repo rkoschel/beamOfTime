@@ -20,6 +20,7 @@ http://www.beamoftime.com
   - on windows tkinter is installed together with python
   - on linux install tkinter:
     sudo apt-get install python3-tk
+    sudo apt-get install python-is-python3
 
 - install git client https://git-scm.com/downloads
 - fork/clone clock repository https://github.com/gokko/beamOfTime
@@ -30,16 +31,24 @@ http://www.beamoftime.com
   - pip3 install ifaddr
   - pip3 install flask
   - cd wpasupplicantconf; python setup.py install
-  - cd beamoftime/bot/emulator; python setup.py install
+  - cd beamOfTime/bot/emulator; python setup.py install
   - cd parse-crontab; python setup.py install
 
-- install espeak http://espeak.sourceforge.net/download.html
-  (make sure on Windows folder with executable is included in PATH)
-- install/unzip mpg123 https://www.mpg123.de/download.shtml
-  (make sure on Windows folder with executable is included in PATH)
+- install espeak
+  - Linux:
+    - sudo apt install espeak
+  - Windows:
+    - http://espeak.sourceforge.net/download.html
+    - (make sure on Windows folder with executable is included in PATH)
+- install/unzip mpg123 
+  - Linux:
+    - sudo apt install mpg321
+  - Windows:
+    - https://www.mpg123.de/download.shtml
+    - (make sure on Windows folder with executable is included in PATH)
 
 run botclock:
-- python beamoftime/bot/app.py
+- python beamOfTime/bot/app.py
 
 for configuration from browser connect to:
 - http://localhost:8080

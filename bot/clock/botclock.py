@@ -227,11 +227,13 @@ class BotClock(object):
                 if tmr.get('enabled', True) == False:
                     continue
                 # parse the crontab entry
-                tmrDiff = round(CronTab(tmr['time']).previous(self.tNow, default_utc=False))
+                #tmrDiff = round(CronTab(user = True, tab = tmr['time']).find_time(self.tNow))
+                tmrDiff = CronTab(user = True, tab = tmr['time']).find_time(self.tNow)
                 # print(self.tNow, tmr['name'], tmr['time'], tmrDiff)
                 # skip if this entry is not due in the current second
                 if (tmrDiff != 0):
-                    continue
+                    #continue
+                    pass
                 # switch function (off, clock, lamp, animation)
                 if tmr.get('action') == 'function' and tmr['params'] in ['off', 'clock', 'lamp', 'animation']:
                     self.mode= settings['mode']= tmr['params']
