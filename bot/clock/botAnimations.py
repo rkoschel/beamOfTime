@@ -23,27 +23,49 @@ class BotClock(BotClock):
         self.animations["nothing"] = self.animationNothing
 
     def animationFCB(self):
-        self.animationDFLRanking('FC Bayern München')
+        ## TODO implement method to retrieve ranking from https://www.bundesliga.com/de/2bundesliga/tabelle
+        # 'FC Bayern München'
+        self.animationDFLRanking(1)
 
     def animationS04(self):
-        self.animationDFLRanking('FC Schalke 04')
+        # 'FC Schalke 04'
+        self.animationDFLRanking(6)
 
     def animationBVB(self):
-        self.animationDFLRanking('Borussia Dortmund')
+        # 'Borussia Dortmund'
+        self.animationDFLRanking(4)
 
     def animationVFL(self):
-        self.animationDFLRanking('VfL Bochum 1848')
+        # 'VfL Bochum 1848'
+        self.animationDFLRanking(13)
 
-    def animationDFLRanking(self, club):
+    def animationDFLRanking(self, dflRanking):
+        print(f'ranking: {dflRanking}')
         color = (255, 96, 28)
-        dflRanking = 10 ## TODO implement method to retrieve ranking from https://www.bundesliga.com/de/2bundesliga/tabelle
-        print(f'{club} is ranked: {dflRanking}')
-        for i in range(1,dflRanking+1):
-            ## TODO implement logic for ranking > 12 (ring=0)
+        dflRankingOuterRing = dflRanking
+        dflRankingInnerRing = 0
+        if dflRanking > 12:
+            dflRankingOuterRing = dflRanking - (dflRanking - 12)
+            dflRankingInnerRing = dflRanking - 12
+        clockTimeForRankingOuterRing = dflRankingOuterRing * 5
+        clockTimeForRankingInnerRing = dflRankingInnerRing * 5
+
+        for i in range(0,clockTimeForRankingOuterRing+1):
+            if i == 60:
+                break
             self.colorRingSet(color, 1, i)
             self.strip.show()
-            time.sleep(20/1000.0)
-        time.sleep(15)
+            time.sleep(15/1000.0)
+
+        if dflRankingInnerRing > 0:
+            for i in range(0,clockTimeForRankingInnerRing+1):
+                if i == 60:
+                    break
+                self.colorRingSet(color, 0, i)
+                self.strip.show()
+                time.sleep(15/1000.0)
+
+        time.sleep(10)
 
     def randomColor(self):
         maxCol= 120
