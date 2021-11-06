@@ -30,9 +30,12 @@ http://www.beamoftime.com
 - install libraries (on linux you might need sudo for python setup....)
   - pip3 install ifaddr
   - pip3 install flask
-  - cd wpasupplicantconf; python setup.py install
-  - cd beamOfTime/bot/emulator; python setup.py install
-  - cd parse-crontab; python setup.py install
+  - cd wpasupplicantconf
+  - sudo python setup.py install
+  - cd beamOfTime/bot/emulator 
+  - sudo python setup.py install
+  - cd parse-crontab
+  - sudo python setup.py install
 
 - install espeak
   - Linux:
