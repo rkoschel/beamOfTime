@@ -3,6 +3,7 @@ import random
 from datetime import datetime
 from clock.botclock import BotClock, ColorHelper
 import neopixel
+import requests
 
 class BotClock(BotClock):
     def __init__(self):
@@ -11,8 +12,7 @@ class BotClock(BotClock):
         self.animations["FCB Ranking"] = self.animationFCB
         self.animations["S04 Ranking"] = self.animationS04
         self.animations["BVB Ranking"] = self.animationBVB
-        self.animations["VFL Ranking"] = self.animationVFL
-
+        self.animations["VFL Ranking"] = self.animationBOC
         self.animations["colorDrop"] = self.animationColorDrop
         self.animations["colorWipe"] = self.animationColorWipe
         self.animations["colorWipeQuarter"] = self.animationColorWipeQuarter
@@ -22,50 +22,74 @@ class BotClock(BotClock):
         self.animations["random"] = self.animationRandom
         self.animations["nothing"] = self.animationNothing
 
-    def animationFCB(self):
-        ## TODO implement method to retrieve ranking from https://www.bundesliga.com/de/2bundesliga/tabelle
-        # 'FC Bayern München'
-        self.animationDFLRanking(1)
-
-    def animationS04(self):
-        # 'FC Schalke 04'
-        self.animationDFLRanking(6)
-
-    def animationBVB(self):
-        # 'Borussia Dortmund'
-        self.animationDFLRanking(4)
-
-    def animationVFL(self):
-        # 'VfL Bochum 1848'
-        self.animationDFLRanking(13)
-
     def animationDFLRanking(self, dflRanking):
-        print(f'ranking: {dflRanking}')
+        #print(f'ranking: {dflRanking}')
         color = (255, 96, 28)
-        dflRankingOuterRing = dflRanking
-        dflRankingInnerRing = 0
-        if dflRanking > 12:
-            dflRankingOuterRing = dflRanking - (dflRanking - 12)
-            dflRankingInnerRing = dflRanking - 12
-        clockTimeForRankingOuterRing = dflRankingOuterRing * 5
-        clockTimeForRankingInnerRing = dflRankingInnerRing * 5
 
-        for i in range(0,clockTimeForRankingOuterRing+1):
-            if i == 60:
-                break
-            self.colorRingSet(color, 1, i)
+        if dflRanking == 0:
+            self.colorRingSet(color, 1, 0)
             self.strip.show()
-            time.sleep(15/1000.0)
+            time.sleep(3)
+        else:
+            dflRankingOuterRing = dflRanking
+            dflRankingInnerRing = 0
+            if dflRanking > 12:
+                dflRankingOuterRing = dflRanking - (dflRanking - 12)
+                dflRankingInnerRing = dflRanking - 12
+            clockTimeForRankingOuterRing = dflRankingOuterRing * 5
+            clockTimeForRankingInnerRing = dflRankingInnerRing * 5
 
-        if dflRankingInnerRing > 0:
-            for i in range(0,clockTimeForRankingInnerRing+1):
+            for i in range(0,clockTimeForRankingOuterRing+1):
                 if i == 60:
                     break
-                self.colorRingSet(color, 0, i)
+                self.colorRingSet(color, 1, i)
                 self.strip.show()
                 time.sleep(15/1000.0)
 
-        time.sleep(10)
+            if dflRankingInnerRing > 0:
+                for i in range(0,clockTimeForRankingInnerRing+1):
+                    if i == 60:
+                        break
+                    self.colorRingSet(color, 0, i)
+                    self.strip.show()
+                    time.sleep(15/1000.0)
+
+            time.sleep(10)
+
+    ## doesn't work
+    ## does always use the latest added lambda
+    #def installAvailableSoccerRankingAnimations(self):
+    #    try:
+    #        for club in requests.get('http://localhost:5000/clubs').json()['clubs']:
+    #            clubShort = club['club_short']
+    #            print(f'install animation for {clubShort}')
+    #            animationTitle = clubShort + ' Ranking - new'
+    #            self.animations[animationTitle] = lambda : self.animationForClub(clubShort)
+    #    except:
+    #        print('exeption during installation of available soccer ranking')
+
+    def animationFCB(self):
+        rank = self.loadRanking('FCB')
+        self.animationDFLRanking(rank)
+    
+    def animationS04(self):
+        rank = self.loadRanking('S04')
+        self.animationDFLRanking(rank)
+    
+    def animationBVB(self):
+        rank = self.loadRanking('BVB')
+        self.animationDFLRanking(rank)
+    
+    def animationBOC(self):
+        rank = self.loadRanking('BOC')
+        self.animationDFLRanking(rank)
+
+    def loadRanking(self, club):
+        try:
+            return int(requests.get('http://localhost:5000/ranking/' + club).text)
+        except:
+            print('could not load ranking')
+            return 0
 
     def randomColor(self):
         maxCol= 120
