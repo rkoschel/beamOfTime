@@ -25,6 +25,7 @@ class BotClock(BotClock):
     def animationDFLRanking(self, dflRanking):
         #print(f'ranking: {dflRanking}')
         color = (255, 96, 28)
+        colorRank = (247, 247, 247)
 
         if dflRanking == 0:
             self.colorRingSet(color, 1, 0)
@@ -40,17 +41,23 @@ class BotClock(BotClock):
             clockTimeForRankingInnerRing = dflRankingInnerRing * 5
 
             for i in range(0,clockTimeForRankingOuterRing+1):
-                if i == 60:
+                if i == 61:
                     break
-                self.colorRingSet(color, 1, i)
+                if i%5 == 0 and i > 0:
+                    self.colorRingSet(colorRank, 1, i)
+                else: 
+                    self.colorRingSet(color, 1, i)
                 self.strip.show()
                 time.sleep(15/1000.0)
 
             if dflRankingInnerRing > 0:
                 for i in range(0,clockTimeForRankingInnerRing+1):
-                    if i == 60:
+                    if i == 61:
                         break
-                    self.colorRingSet(color, 0, i)
+                    if i%5 == 0 and i > 0:
+                        self.colorRingSet(colorRank, 1, i)
+                    else: 
+                        self.colorRingSet(color, 1, i)
                     self.strip.show()
                     time.sleep(15/1000.0)
 
