@@ -25,7 +25,7 @@ class BotClock(BotClock):
     def animationDFLRanking(self, dflRanking):
         #print(f'ranking: {dflRanking}')
         color = (255, 96, 28)
-        colorRank = (247, 247, 247)
+        colorRank = (140, 250, 0)
 
         if dflRanking == 0:
             self.colorRingSet(color, 1, 0)
