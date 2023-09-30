@@ -24,8 +24,8 @@ class BotClock(BotClock):
 
     def animationDFLRanking(self, dflRanking):
         #print(f'ranking: {dflRanking}')
-        color = (255, 96, 28)
-        colorRank = (140, 250, 0)
+        color = (255, 255, 255)
+        colorRank = (255, 0, 0)
 
         if dflRanking == 0:
             self.colorRingSet(color, 1, 0)
@@ -62,18 +62,6 @@ class BotClock(BotClock):
                     time.sleep(15/1000.0)
 
             time.sleep(10)
-
-    ## doesn't work
-    ## does always use the latest added lambda
-    #def installAvailableSoccerRankingAnimations(self):
-    #    try:
-    #        for club in requests.get('http://localhost:5000/clubs').json()['clubs']:
-    #            clubShort = club['club_short']
-    #            print(f'install animation for {clubShort}')
-    #            animationTitle = clubShort + ' Ranking - new'
-    #            self.animations[animationTitle] = lambda : self.animationForClub(clubShort)
-    #    except:
-    #        print('exeption during installation of available soccer ranking')
 
     def animationFCB(self):
         rank = self.loadRanking('FCB')
