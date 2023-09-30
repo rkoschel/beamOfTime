@@ -55,9 +55,9 @@ class BotClock(BotClock):
                     if i == 61:
                         break
                     if i%5 == 0 and i > 0:
-                        self.colorRingSet(colorRank, 2, i)
+                        self.colorRingSet(colorRank, 0, i)
                     else: 
-                        self.colorRingSet(color, 2, i)
+                        self.colorRingSet(color, 0, i)
                     self.strip.show()
                     time.sleep(15/1000.0)
 
